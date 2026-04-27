@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Scale, Send, User, Bot } from 'lucide-react';
+import { ArrowLeft, Scale, Send, User, Bot, ClipboardList, Shield } from 'lucide-react';
+import { useLang } from '../contexts/LanguageContext';
 
 interface Message {
   id: string;
@@ -10,15 +11,13 @@ interface Message {
 
 export default function Consultation() {
   const navigate = useNavigate();
+  const { lang, t } = useLang();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: '您好，我是您的專屬勞資調解員。請問您目前遇到了什麼職場爭議？（例如：公司未給付加班費、無預警解雇等）'
-    }
+    { id: '1', role: 'assistant', content: t.aiGreeting }
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Record<string, string | null>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -27,7 +26,20 @@ export default function Consultation() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, expandedSections]);
+
+  const toggleSection = (msgId: string, section: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [msgId]: prev[msgId] === section ? null : section,
+    }));
+  };
+
+  const langInstruction: Record<string, string> = {
+    'zh-TW': '請使用繁體中文回覆。',
+    en: 'Please reply in English.',
+    th: 'กรุณาตอบเป็นภาษาไทย',
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -45,48 +57,124 @@ export default function Consultation() {
     try {
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       if (!apiKey) {
-        throw new Error('未設定 API Key (VITE_GEMINI_API_KEY)');
+        throw new Error(t.apiKeyMissing);
       }
+
+      const systemPrompt = `你是一位資深勞資調解員。${langInstruction[lang] || langInstruction['zh-TW']}
+
+請根據使用者的勞資爭議問題，引用中華民國勞基法條文進行回覆。
+
+你的回覆必須嚴格按照以下 5 個區塊輸出，每個區塊用 Markdown 標題標記：
+
+## 📋 狀況分析
+（針對使用者描述的爭議進行分析）
+
+## 📖 適用法條
+（引用具體的勞基法、勞退條例等條文）
+
+## ✅ 行動建議
+（具體、可操作的行動步驟）
+
+## 🗂️ 證據收集清單
+（條列出使用者應該保存的所有證據，例如：薪資單、打卡紀錄、LINE 對話截圖等，請盡量具體）
+
+## 🛡️ 應對錦囊
+（提供與雇主面對面談判時的專業語句範本，以及心理建設與注意事項）
+
+回答請保持專業、同理心，且排版清晰。`;
 
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           system_instruction: {
-            parts: [{ text: "你是一位資深勞資調解員。請引用中華民國勞基法條文進行回覆，並輸出：狀況分析、適用法條、行動建議。回答請保持專業、同理心，且排版清晰。" }]
+            parts: [{ text: systemPrompt }]
           },
           contents: [{
-            role: "user",
+            role: 'user',
             parts: [{ text: userMessage.content }]
           }]
         })
       });
 
       if (!response.ok) {
-        throw new Error('API 請求失敗');
+        throw new Error(t.apiFailed);
       }
 
       const data = await response.json();
       const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || '抱歉，我目前無法回應您的問題。';
 
-      const assistantMessage: Message = {
+      setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: replyText
-      };
-      
-      setMessages(prev => [...prev, assistantMessage]);
+      }]);
     } catch (error: any) {
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `系統提示：${error.message || '發生未知錯誤'}\n\n（請確認您是否已在環境變數中設定 VITE_GEMINI_API_KEY）`
+        content: `系統提示：${error.message || t.unknownError}\n\n${t.apiKeyHint}`
       }]);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  /** 解析 AI 回覆，把證據清單和應對錦囊抽出來做成可折疊區塊 */
+  const renderAssistantMessage = (msg: Message) => {
+    const content = msg.content;
+
+    // 嘗試解析出各區塊
+    const evidenceMatch = content.match(/##\s*🗂️\s*證據收集清單([\s\S]*?)(?=##\s*🛡️|$)/);
+    const tacticsMatch = content.match(/##\s*🛡️\s*應對錦囊([\s\S]*?)$/);
+    const mainContent = content
+      .replace(/##\s*🗂️\s*證據收集清單[\s\S]*?(?=##\s*🛡️|$)/, '')
+      .replace(/##\s*🛡️\s*應對錦囊[\s\S]*$/, '')
+      .trim();
+
+    const evidenceText = evidenceMatch?.[1]?.trim();
+    const tacticsText = tacticsMatch?.[1]?.trim();
+    const hasExtras = evidenceText || tacticsText;
+
+    return (
+      <div className="space-y-2">
+        <div className="p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-white border border-gray-200 text-gray-800 rounded-tl-sm shadow-sm">
+          {mainContent}
+        </div>
+        {hasExtras && (
+          <div className="flex gap-2 pl-1">
+            {evidenceText && (
+              <button
+                onClick={() => toggleSection(msg.id, 'evidence')}
+                className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all ${expandedSections[msg.id] === 'evidence' ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-primary/40 hover:bg-blue-50'}`}
+              >
+                <ClipboardList className="w-3.5 h-3.5" /> 證據清單
+              </button>
+            )}
+            {tacticsText && (
+              <button
+                onClick={() => toggleSection(msg.id, 'tactics')}
+                className={`flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border transition-all ${expandedSections[msg.id] === 'tactics' ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-primary/40 hover:bg-blue-50'}`}
+              >
+                <Shield className="w-3.5 h-3.5" /> 應對錦囊
+              </button>
+            )}
+          </div>
+        )}
+        {expandedSections[msg.id] === 'evidence' && evidenceText && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-gray-800 whitespace-pre-wrap">
+            <h4 className="font-bold text-primary mb-1 flex items-center gap-1"><ClipboardList className="w-4 h-4" /> 證據收集清單</h4>
+            {evidenceText}
+          </div>
+        )}
+        {expandedSections[msg.id] === 'tactics' && tacticsText && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-gray-800 whitespace-pre-wrap">
+            <h4 className="font-bold text-amber-700 mb-1 flex items-center gap-1"><Shield className="w-4 h-4" /> 應對錦囊</h4>
+            {tacticsText}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -97,19 +185,23 @@ export default function Consultation() {
         </button>
         <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
           <Scale className="text-primary w-5 h-5" />
-          AI 法律諮詢
+          {t.aiTitle}
         </h2>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
         {messages.map(msg => (
-          <div key={msg.id} className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}>
+          <div key={msg.id} className={`flex gap-3 max-w-[90%] ${msg.role === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-blue-100 text-primary' : 'bg-primary text-white'}`}>
               {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
             </div>
-            <div className={`p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${msg.role === 'user' ? 'bg-primary text-white rounded-tr-sm' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-sm shadow-sm'}`}>
-              {msg.content}
-            </div>
+            {msg.role === 'assistant' ? (
+              renderAssistantMessage(msg)
+            ) : (
+              <div className="p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-primary text-white rounded-tr-sm">
+                {msg.content}
+              </div>
+            )}
           </div>
         ))}
         {isLoading && (
@@ -129,15 +221,15 @@ export default function Consultation() {
 
       <div className="p-4 bg-white border-t border-gray-200 shrink-0">
         <div className="relative flex items-center">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="請描述您的職場爭議狀況..."
+            placeholder={t.inputPlaceholder}
             className="w-full bg-gray-50 border border-gray-200 rounded-full py-3 pl-4 pr-12 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-sm"
           />
-          <button 
+          <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
             className="absolute right-2 p-2 bg-primary text-white rounded-full disabled:opacity-50 hover:bg-primary-dark transition-colors"

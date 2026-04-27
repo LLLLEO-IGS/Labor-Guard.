@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-primary: #1A237E;
   --color-primary-dark: #121858;
+  --color-accent: #FF6F00;
 }
 
 body {
@@ -10,4 +12,15 @@ body {
   background-color: #f3f4f6;
   margin: 0;
   padding: 0;
+}
+
+/* Print-friendly styles for document export */
+@media print {
+  header, nav, button, .shrink-0:last-child {
+    display: none !important;
+  }
+  .max-w-md {
+    max-width: 100% !important;
+    box-shadow: none !important;
+  }
 }

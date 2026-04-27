@@ -1,22 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Scale, Calculator as CalcIcon, ShieldCheck, ChevronRight } from 'lucide-react';
+import { useLang } from '../contexts/LanguageContext';
 
 export default function Dashboard() {
+  const { t } = useLang();
+
   return (
     <div className="p-6 flex flex-col gap-6">
       <div className="text-center py-6">
         <div className="mx-auto bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
           <ShieldCheck className="text-primary w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-800">歡迎使用 Labor Guard</h2>
-        <p className="text-gray-500 mt-2 text-sm">
-          您的專屬勞權智能輔助工具，保護您的職場權益。
-        </p>
+        <h2 className="text-2xl font-bold text-gray-800">{t.welcome}</h2>
+        <p className="text-gray-500 mt-2 text-sm">{t.welcomeSub}</p>
       </div>
 
       <div className="flex flex-col gap-4">
-        <Link 
-          to="/consultation" 
+        <Link
+          to="/consultation"
           className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all flex items-center justify-between"
         >
           <div className="flex items-center gap-4">
@@ -24,15 +25,15 @@ export default function Dashboard() {
               <Scale className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-800 text-lg">AI 法律諮詢</h3>
-              <p className="text-gray-500 text-xs mt-1">解析勞基法，提供行動建議</p>
+              <h3 className="font-semibold text-gray-800 text-lg">{t.aiConsult}</h3>
+              <p className="text-gray-500 text-xs mt-1">{t.aiConsultSub}</p>
             </div>
           </div>
           <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
         </Link>
 
-        <Link 
-          to="/calculator" 
+        <Link
+          to="/calculator"
           className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all flex items-center justify-between"
         >
           <div className="flex items-center gap-4">
@@ -40,16 +41,16 @@ export default function Dashboard() {
               <CalcIcon className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-800 text-lg">權益試算機</h3>
-              <p className="text-gray-500 text-xs mt-1">資遣費試算與一鍵產出文件</p>
+              <h3 className="font-semibold text-gray-800 text-lg">{t.calculator}</h3>
+              <p className="text-gray-500 text-xs mt-1">{t.calculatorSub}</p>
             </div>
           </div>
           <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
         </Link>
       </div>
-      
+
       <div className="mt-8 text-center text-xs text-gray-400">
-        <p>所有查詢皆為匿名處理，保障您的個人隱私</p>
+        <p>{t.privacyFooter}</p>
       </div>
     </div>
   );
