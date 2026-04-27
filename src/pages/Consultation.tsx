@@ -83,7 +83,7 @@ export default function Consultation() {
 
 回答請保持專業、同理心，且排版清晰。`;
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -98,7 +98,16 @@ export default function Consultation() {
       });
 
       if (!response.ok) {
-        throw new Error(t.apiFailed);
+        // 讀取 API 回傳的實際錯誤訊息，方便除錯
+        let errorDetail = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorDetail = errorData?.error?.message || JSON.stringify(errorData);
+        } catch {
+          // 若無法解析 JSON，就用 status text
+          errorDetail = `HTTP ${response.status} ${response.statusText}`;
+        }
+        throw new Error(`${t.apiFailed}（${errorDetail}）`);
       }
 
       const data = await response.json();
