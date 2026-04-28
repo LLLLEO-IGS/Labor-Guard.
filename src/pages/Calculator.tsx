@@ -67,7 +67,14 @@ export default function Calculator() {
     // 總金額
     const totalCompensation = severancePay + noticeWage + leaveCompensation;
 
-    setResult({ years, monthsOfPay, severancePay, noticeDays, noticeWage, leaveCompensation, totalCompensation });
+    const newResult = { years, monthsOfPay, severancePay, noticeDays, noticeWage, leaveCompensation, totalCompensation };
+    setResult(newResult);
+    localStorage.setItem('laborGuardCalcResult', JSON.stringify({
+      salary: salaryNum.toString(),
+      startDate,
+      endDate,
+      result: newResult
+    }));
   };
 
   const handleGenerateDoc = (type: 'attest' | 'mediation') => {

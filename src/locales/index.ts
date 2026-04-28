@@ -56,6 +56,27 @@ export interface Translations {
   noData: string;
   goToCalc: string;
   dateError: string;
+  // Risk Assessment
+  riskAssessment: string;
+  riskAssessmentSub: string;
+  riskTitle: string;
+  riskSubtitle: string;
+  analyzeRisk: string;
+  risk1: string;
+  risk2: string;
+  risk3: string;
+  risk4: string;
+  risk5: string;
+  // Contract Analysis
+  contractAnalysis: string;
+  contractAnalysisSub: string;
+  contractTitle: string;
+  contractSubtitle: string;
+  contractPlaceholder: string;
+  analyzeContract: string;
+  // Legal Letter Generator
+  legalLetterGenerator: string;
+  legalLetterGeneratorSub: string;
 }
 
 const zh: Translations = {
@@ -106,8 +127,26 @@ const zh: Translations = {
   years: '年',
   ntd: 'NT$',
   noData: '查無試算資料，請先進行試算。',
-  goToCalc: '返回試算機',
+  goToCalc: '前往試算機',
   dateError: '離職日期必須晚於到職日期',
+  riskAssessment: '職場風險體檢',
+  riskAssessmentSub: '互動式清單，AI 總結潛在風險',
+  riskTitle: '職場風險體檢',
+  riskSubtitle: '請勾選您目前在職場遇到的狀況，AI 將為您評估潛在法律風險。',
+  analyzeRisk: '開始體檢',
+  risk1: '公司未依法給付加班費或強制補休',
+  risk2: '沒有投保勞健保，或高薪低報',
+  risk3: '遭遇無預警解雇或不當調動',
+  risk4: '請假（如病假、生理假）遭到刁難或扣全勤',
+  risk5: '遭遇職場霸凌或言語暴力',
+  contractAnalysis: '合約陷阱解析',
+  contractAnalysisSub: '貼上合約條文，AI 幫你抓出陷阱',
+  contractTitle: '合約陷阱解析',
+  contractSubtitle: '請貼上您覺得有疑慮的勞動契約條文或公司規定，讓 AI 為您白話翻譯並找出陷阱。',
+  contractPlaceholder: '例如：乙方離職須提前三個月告知，否則需賠償兩個月薪資作為懲罰性違約金...',
+  analyzeContract: '分析條文',
+  legalLetterGenerator: '存證信函產生器',
+  legalLetterGeneratorSub: '根據試算結果自動產生法律草稿',
 };
 
 const en: Translations = {
@@ -160,6 +199,24 @@ const en: Translations = {
   noData: 'No calculation data found. Please calculate first.',
   goToCalc: 'Go to Calculator',
   dateError: 'End date must be after start date',
+  riskAssessment: 'Risk Assessment',
+  riskAssessmentSub: 'Interactive checklist with AI summary',
+  riskTitle: 'Workplace Risk Assessment',
+  riskSubtitle: 'Select the issues you are facing, and AI will evaluate your legal risks.',
+  analyzeRisk: 'Analyze Risks',
+  risk1: 'Unpaid overtime or forced comp time',
+  risk2: 'No labor insurance or underreported salary',
+  risk3: 'Sudden dismissal or unfair transfer',
+  risk4: 'Difficulties taking leave (sick, menstrual) or attendance deductions',
+  risk5: 'Workplace bullying or verbal abuse',
+  contractAnalysis: 'Contract Trap Analysis',
+  contractAnalysisSub: 'Paste contract clauses for AI analysis',
+  contractTitle: 'Contract Trap Analysis',
+  contractSubtitle: 'Paste any suspicious labor contract clauses or company rules for plain-language translation and trap identification.',
+  contractPlaceholder: 'e.g., Party B must give 3 months notice before resigning, or pay 2 months salary as penalty...',
+  analyzeContract: 'Analyze Clauses',
+  legalLetterGenerator: 'Legal Letter Generator',
+  legalLetterGeneratorSub: 'Auto-generate legal drafts from calculations',
 };
 
 const th: Translations = {
@@ -212,6 +269,24 @@ const th: Translations = {
   noData: 'ไม่พบข้อมูลการคำนวณ กรุณาคำนวณก่อน',
   goToCalc: 'ไปที่เครื่องคำนวณ',
   dateError: 'วันสิ้นสุดต้องอยู่หลังวันเริ่มต้น',
+  riskAssessment: 'ตรวจประเมินความเสี่ยง',
+  riskAssessmentSub: 'เช็คลิสต์ประเมินความเสี่ยงพร้อมสรุปโดย AI',
+  riskTitle: 'ประเมินความเสี่ยงในที่ทำงาน',
+  riskSubtitle: 'โปรดเลือกปัญหาที่คุณพบ แล้ว AI จะประเมินความเสี่ยงทางกฎหมายให้คุณ',
+  analyzeRisk: 'เริ่มการประเมิน',
+  risk1: 'ไม่จ่ายค่าล่วงเวลาหรือบังคับหยุดชดเชย',
+  risk2: 'ไม่มีประกันสังคมหรือแจ้งเงินเดือนต่ำกว่าจริง',
+  risk3: 'เลิกจ้างกะทันหันหรือโยกย้ายไม่เป็นธรรม',
+  risk4: 'ลาป่วยหรือลากิจยาก ถูกหักเงิน',
+  risk5: 'ถูกกลั่นแกล้งหรือใช้ความรุนแรงด้วยวาจา',
+  contractAnalysis: 'วิเคราะห์ข้อสัญญา',
+  contractAnalysisSub: 'วางข้อสัญญาให้ AI ช่วยหาช่องโหว่',
+  contractTitle: 'วิเคราะห์ข้อสัญญา',
+  contractSubtitle: 'วางข้อสัญญาแรงงานหรือกฎบริษัทที่น่าสงสัย เพื่อให้ AI ช่วยแปลและหาช่องโหว่',
+  contractPlaceholder: 'เช่น ฝ่าย ข ต้องแจ้งล่วงหน้า 3 เดือนก่อนลาออก มิฉะนั้นต้องจ่ายค่าปรับเท่ากับเงินเดือน 2 เดือน...',
+  analyzeContract: 'วิเคราะห์ข้อสัญญา',
+  legalLetterGenerator: 'สร้างจดหมายกฎหมาย',
+  legalLetterGeneratorSub: 'สร้างจดหมายกฎหมายอัตโนมัติจากการคำนวณ',
 };
 
 export const translations: Record<Lang, Translations> = { 'zh-TW': zh, en, th };

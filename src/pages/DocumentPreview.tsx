@@ -16,13 +16,24 @@ export default function DocumentPreview() {
   const navigate = useNavigate();
   const { t } = useLang();
   const location = useLocation();
-  const state = location.state as {
+  let state = location.state as {
     type: 'attest' | 'mediation';
     salary: string;
     startDate: string;
     endDate: string;
     result: CalcResult;
   };
+
+  if (!state) {
+    try {
+      const cached = localStorage.getItem('laborGuardCalcResult');
+      if (cached) {
+        state = { ...JSON.parse(cached), type: 'attest' };
+      }
+    } catch (e) {
+      // ignore JSON parse error
+    }
+  }
 
   if (!state) {
     return (

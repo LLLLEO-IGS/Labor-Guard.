@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Scale, Calculator as CalcIcon, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Scale, Calculator as CalcIcon, ShieldCheck, ChevronRight, ClipboardCheck, FileSearch, FileSignature } from 'lucide-react';
 import { useLang } from '../contexts/LanguageContext';
 
 export default function Dashboard() {
@@ -43,6 +43,54 @@ export default function Dashboard() {
             <div>
               <h3 className="font-semibold text-gray-800 text-lg">{t.calculator}</h3>
               <p className="text-gray-500 text-xs mt-1">{t.calculatorSub}</p>
+            </div>
+          </div>
+          <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
+        </Link>
+
+        <Link
+          to="/risk-assessment"
+          className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all flex items-center justify-between"
+        >
+          <div className="flex items-center gap-4">
+            <div className="bg-blue-50 p-3 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+              <ClipboardCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-lg">{t.riskAssessment}</h3>
+              <p className="text-gray-500 text-xs mt-1">{t.riskAssessmentSub}</p>
+            </div>
+          </div>
+          <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
+        </Link>
+
+        <Link
+          to="/contract-analysis"
+          className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all flex items-center justify-between"
+        >
+          <div className="flex items-center gap-4">
+            <div className="bg-blue-50 p-3 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+              <FileSearch className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-lg">{t.contractAnalysis}</h3>
+              <p className="text-gray-500 text-xs mt-1">{t.contractAnalysisSub}</p>
+            </div>
+          </div>
+          <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
+        </Link>
+
+        <Link
+          to="/document"
+          className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all flex items-center justify-between"
+        >
+          <div className="flex items-center gap-4">
+            <div className="bg-blue-50 p-3 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+              <FileSignature className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-lg">{t.legalLetterGenerator}</h3>
+              <p className="text-gray-500 text-xs mt-1">{t.legalLetterGeneratorSub}</p>
             </div>
           </div>
           <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
