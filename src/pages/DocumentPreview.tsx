@@ -37,9 +37,25 @@ export default function DocumentPreview() {
 
   if (!state) {
     return (
-      <div className="p-6 text-center">
-        <p className="text-gray-500 mb-4">{t.noData}</p>
-        <button onClick={() => navigate('/calculator')} className="text-primary underline">{t.goToCalc}</button>
+      <div className="flex flex-col h-[calc(100vh-68px)]">
+        <div className="bg-white p-4 shadow-sm z-10 flex items-center gap-3 shrink-0">
+          <button onClick={() => navigate(-1)} className="p-2 bg-gray-50 rounded-full text-gray-500 hover:text-primary transition-colors">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <FileText className="text-primary w-5 h-5" />
+            {t.attestTitle}
+          </h2>
+        </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <p className="text-gray-500 mb-4">{t.noData}</p>
+          <button 
+            onClick={() => navigate('/calculator')} 
+            className="bg-primary text-white px-6 py-2.5 rounded-full font-medium hover:bg-primary-dark transition-colors"
+          >
+            {t.goToCalc}
+          </button>
+        </div>
       </div>
     );
   }
