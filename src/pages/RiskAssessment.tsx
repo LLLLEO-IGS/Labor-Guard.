@@ -81,14 +81,14 @@ ${selectedTexts.map(text => '- ' + text).join('\n')}
       });
 
       if (!response.ok) {
-        let errorDetail = \`HTTP \${response.status}\`;
+        let errorDetail = `HTTP ${response.status}`;
         try {
           const errorData = await response.json();
           errorDetail = errorData?.error?.message || JSON.stringify(errorData);
         } catch {
-          errorDetail = \`HTTP \${response.status} \${response.statusText}\`;
+          errorDetail = `HTTP ${response.status} ${response.statusText}`;
         }
-        throw new Error(\`\${t.apiFailed}（\${errorDetail}）\`);
+        throw new Error(`${t.apiFailed}（${errorDetail}）`);
       }
 
       const data = await response.json();
@@ -96,7 +96,7 @@ ${selectedTexts.map(text => '- ' + text).join('\n')}
       setResult(replyText);
 
     } catch (error: any) {
-      setErrorMsg(\`\${error.message || t.unknownError}\\n\\n\${t.apiKeyHint}\`);
+      setErrorMsg(`${error.message || t.unknownError}\n\n${t.apiKeyHint}`);
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +123,7 @@ ${selectedTexts.map(text => '- ' + text).join('\n')}
           {risks.map(risk => (
             <label 
               key={risk.id} 
-              className={\`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all \${selectedRisks.includes(risk.id) ? 'border-primary bg-primary/5' : 'border-gray-100 bg-white hover:border-gray-200'}\`}
+              className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedRisks.includes(risk.id) ? 'border-primary bg-primary/5' : 'border-gray-100 bg-white hover:border-gray-200'}`}
             >
               <div className="mt-0.5 flex-shrink-0">
                 <input 
@@ -133,7 +133,7 @@ ${selectedTexts.map(text => '- ' + text).join('\n')}
                   onChange={() => toggleRisk(risk.id)}
                 />
               </div>
-              <span className={\`text-sm \${selectedRisks.includes(risk.id) ? 'font-medium text-primary' : 'text-gray-700'}\`}>
+              <span className={`text-sm ${selectedRisks.includes(risk.id) ? 'font-medium text-primary' : 'text-gray-700'}`}>
                 {risk.label}
               </span>
             </label>

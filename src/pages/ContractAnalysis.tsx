@@ -60,20 +60,20 @@ export default function ContractAnalysis() {
           },
           contents: [{
             role: 'user',
-            parts: [{ text: \`要分析的條文內容如下：\\n\\n\${contractText}\` }]
+            parts: [{ text: `要分析的條文內容如下：\n\n${contractText}` }]
           }]
         })
       });
 
       if (!response.ok) {
-        let errorDetail = \`HTTP \${response.status}\`;
+        let errorDetail = `HTTP ${response.status}`;
         try {
           const errorData = await response.json();
           errorDetail = errorData?.error?.message || JSON.stringify(errorData);
         } catch {
-          errorDetail = \`HTTP \${response.status} \${response.statusText}\`;
+          errorDetail = `HTTP ${response.status} ${response.statusText}`;
         }
-        throw new Error(\`\${t.apiFailed}（\${errorDetail}）\`);
+        throw new Error(`${t.apiFailed}（${errorDetail}）`);
       }
 
       const data = await response.json();
@@ -81,7 +81,7 @@ export default function ContractAnalysis() {
       setResult(replyText);
 
     } catch (error: any) {
-      setErrorMsg(\`\${error.message || t.unknownError}\\n\\n\${t.apiKeyHint}\`);
+      setErrorMsg(`${error.message || t.unknownError}\n\n${t.apiKeyHint}`);
     } finally {
       setIsLoading(false);
     }
