@@ -83,15 +83,16 @@ export default function Consultation() {
 
 回答請保持專業、同理心，且排版清晰。`;
 
-      const combinedPrompt = `${systemPrompt}\n\n使用者的問題：\n${userMessage.content}`;
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: systemPrompt }]
+          },
           contents: [{
             role: 'user',
-            parts: [{ text: combinedPrompt }]
+            parts: [{ text: userMessage.content }]
           }]
         })
       });
