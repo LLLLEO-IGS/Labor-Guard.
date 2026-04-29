@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { differenceInDays } from 'date-fns';
-import { ArrowLeft, Calculator as CalcIcon, FileText, Copy, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Calculator as CalcIcon, FileText, Copy, AlertTriangle, AlertCircle } from 'lucide-react';
 import { useLang } from '../contexts/LanguageContext';
 
 interface CalcResult {
@@ -37,17 +37,65 @@ export default function Calculator() {
   const [unusedLeave, setUnusedLeave] = useState('');
   const [result, setResult] = useState<CalcResult | null>(null);
   const [copied, setCopied] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const calculate = () => {
-    if (!salary || !startDate || !endDate) return;
-    const sDate = new Date(startDate);
-    const eDate = new Date(endDate);
+  /** 驗證輸入欄位 */
+  const validate = (): boolean => {
+    const newErrors: Record<string, string> = {};
 
-    if (eDate <= sDate) {
-      alert(t.dateError);
-      return;
+    // — 月薪驗證 —
+    if (!salary) {
+      newErrors.salary = t.errSalaryRequired;
+    } else {
+      const n = Number(salary);
+      if (!Number.isFinite(n) || n <= 0) {
+        newErrors.salary = t.errSalaryPositive;
+      } else if (n > 10_000_000) {
+        newErrors.salary = t.errSalaryMax;
+      }
     }
 
+    // — 日期驗證 —
+    if (!startDate) {
+      newErrors.startDate = t.errDateRequired;
+    }
+    if (!endDate) {
+      newErrors.endDate = t.errDateRequired;
+    }
+    if (startDate && endDate) {
+      const sDate = new Date(startDate);
+      const eDate = new Date(endDate);
+      if (eDate <= sDate) {
+        newErrors.endDate = t.dateError;
+      }
+      // 年份範圍檢查
+      if (sDate.getFullYear() < 1911 || sDate.getFullYear() > 2100) {
+        newErrors.startDate = t.errDateRange;
+      }
+      if (eDate.getFullYear() < 1911 || eDate.getFullYear() > 2100) {
+        newErrors.endDate = t.errDateRange;
+      }
+    }
+
+    // — 未休特休天數 —
+    if (unusedLeave) {
+      const n = Number(unusedLeave);
+      if (!Number.isFinite(n) || n < 0) {
+        newErrors.unusedLeave = t.errLeaveNonNegative;
+      } else if (n > 365) {
+        newErrors.unusedLeave = t.errLeaveMax;
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const calculate = () => {
+    if (!validate()) return;
+
+    const sDate = new Date(startDate);
+    const eDate = new Date(endDate);
     const salaryNum = parseInt(salary, 10);
     const days = differenceInDays(eDate, sDate) + 1;
     const years = days / 365.25;
@@ -131,39 +179,50 @@ export default function Calculator() {
           <input
             type="number"
             value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            onChange={(e) => { setSalary(e.target.value); setErrors(prev => { const { salary: _, ...rest } = prev; return rest; }); }}
+            className={`w-full border rounded-lg p-3 outline-none focus:ring-2 transition-all ${errors.salary ? 'border-red-400 focus:ring-red-300 focus:border-red-400' : 'border-gray-300 focus:ring-primary/50 focus:border-primary'}`}
             placeholder="45000"
+            min="1"
+            max="10000000"
           />
+          {errors.salary && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.salary}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">{t.startDate}</label>
           <input
             type="date"
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            onChange={(e) => { setStartDate(e.target.value); setErrors(prev => { const { startDate: _, ...rest } = prev; return rest; }); }}
+            className={`w-full border rounded-lg p-3 outline-none focus:ring-2 transition-all ${errors.startDate ? 'border-red-400 focus:ring-red-300 focus:border-red-400' : 'border-gray-300 focus:ring-primary/50 focus:border-primary'}`}
+            min="1911-01-01"
+            max="2100-12-31"
           />
+          {errors.startDate && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.startDate}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">{t.endDate}</label>
           <input
             type="date"
             value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            onChange={(e) => { setEndDate(e.target.value); setErrors(prev => { const { endDate: _, ...rest } = prev; return rest; }); }}
+            className={`w-full border rounded-lg p-3 outline-none focus:ring-2 transition-all ${errors.endDate ? 'border-red-400 focus:ring-red-300 focus:border-red-400' : 'border-gray-300 focus:ring-primary/50 focus:border-primary'}`}
+            min="1911-01-01"
+            max="2100-12-31"
           />
+          {errors.endDate && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.endDate}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">{t.unusedLeave}</label>
           <input
             type="number"
             value={unusedLeave}
-            onChange={(e) => setUnusedLeave(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            onChange={(e) => { setUnusedLeave(e.target.value); setErrors(prev => { const { unusedLeave: _, ...rest } = prev; return rest; }); }}
+            className={`w-full border rounded-lg p-3 outline-none focus:ring-2 transition-all ${errors.unusedLeave ? 'border-red-400 focus:ring-red-300 focus:border-red-400' : 'border-gray-300 focus:ring-primary/50 focus:border-primary'}`}
             placeholder={t.unusedLeavePlaceholder}
             min="0"
+            max="365"
           />
+          {errors.unusedLeave && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.unusedLeave}</p>}
         </div>
 
         <button

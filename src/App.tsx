@@ -7,6 +7,7 @@ import Consultation from './pages/Consultation';
 import DocumentPreview from './pages/DocumentPreview';
 import RiskAssessment from './pages/RiskAssessment';
 import ContractAnalysis from './pages/ContractAnalysis';
+import AnnualLeaveCalc from './pages/AnnualLeaveCalc';
 import { LanguageProvider, useLang } from './contexts/LanguageContext';
 import { type Lang, langLabels } from './locales';
 
@@ -64,6 +65,7 @@ function App() {
               <Route path="/document" element={<DocumentPreview />} />
               <Route path="/risk-assessment" element={<RiskAssessment />} />
               <Route path="/contract-analysis" element={<ContractAnalysis />} />
+              <Route path="/annual-leave" element={<AnnualLeaveCalc />} />
             </Routes>
           </main>
         </div>

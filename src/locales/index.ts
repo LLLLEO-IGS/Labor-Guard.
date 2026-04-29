@@ -77,6 +77,28 @@ export interface Translations {
   // Legal Letter Generator
   legalLetterGenerator: string;
   legalLetterGeneratorSub: string;
+  // Validation errors
+  errSalaryRequired: string;
+  errSalaryPositive: string;
+  errSalaryMax: string;
+  errDateRequired: string;
+  errDateRange: string;
+  errLeaveNonNegative: string;
+  errLeaveMax: string;
+  // Annual Leave Calculator
+  annualLeaveCalc: string;
+  annualLeaveCalcSub: string;
+  alTitle: string;
+  alSubtitle: string;
+  alStartDate: string;
+  alRefDate: string;
+  alRefDateError: string;
+  alCalculate: string;
+  alResultTitle: string;
+  alCurrentLeave: string;
+  alBreakdownTitle: string;
+  alLegalBasis: string;
+  alLegalText: string;
 }
 
 const zh: Translations = {
@@ -147,6 +169,26 @@ const zh: Translations = {
   analyzeContract: '分析條文',
   legalLetterGenerator: '存證信函產生器',
   legalLetterGeneratorSub: '根據試算結果自動產生法律草稿',
+  errSalaryRequired: '請輸入月薪',
+  errSalaryPositive: '月薪必須為正數',
+  errSalaryMax: '月薪不可超過 10,000,000',
+  errDateRequired: '請選擇日期',
+  errDateRange: '年份必須介於 1911 ~ 2100 之間',
+  errLeaveNonNegative: '天數不可為負數',
+  errLeaveMax: '天數不可超過 365 天',
+  annualLeaveCalc: '特休天數試算',
+  annualLeaveCalcSub: '依年資自動算出特休假天數',
+  alTitle: '特休天數試算',
+  alSubtitle: '依據勞基法第 38 條，依您的到職日期計算目前應有的特休天數。',
+  alStartDate: '到職日期',
+  alRefDate: '計算基準日（預設今天）',
+  alRefDateError: '基準日必須晚於到職日',
+  alCalculate: '計算特休',
+  alResultTitle: '特休天數明細',
+  alCurrentLeave: '目前應有特休',
+  alBreakdownTitle: '各年資區間特休天數',
+  alLegalBasis: '📖 法規依據',
+  alLegalText: '勞動基準法第 38 條：勞工在同一雇主或事業單位，繼續工作滿一定期間者，應依規定給予特別休假。',
 };
 
 const en: Translations = {
@@ -217,6 +259,26 @@ const en: Translations = {
   analyzeContract: 'Analyze Clauses',
   legalLetterGenerator: 'Legal Letter Generator',
   legalLetterGeneratorSub: 'Auto-generate legal drafts from calculations',
+  errSalaryRequired: 'Please enter salary',
+  errSalaryPositive: 'Salary must be a positive number',
+  errSalaryMax: 'Salary cannot exceed 10,000,000',
+  errDateRequired: 'Please select a date',
+  errDateRange: 'Year must be between 1911 and 2100',
+  errLeaveNonNegative: 'Days cannot be negative',
+  errLeaveMax: 'Days cannot exceed 365',
+  annualLeaveCalc: 'Annual Leave Calculator',
+  annualLeaveCalcSub: 'Auto-calculate your annual leave by seniority',
+  alTitle: 'Annual Leave Calculator',
+  alSubtitle: 'Calculate your annual leave entitlement based on your employment start date, per Labor Standards Act §38.',
+  alStartDate: 'Employment Start Date',
+  alRefDate: 'Reference Date (default: today)',
+  alRefDateError: 'Reference date must be after start date',
+  alCalculate: 'Calculate Leave',
+  alResultTitle: 'Annual Leave Summary',
+  alCurrentLeave: 'Current Entitlement',
+  alBreakdownTitle: 'Leave by Seniority Bracket',
+  alLegalBasis: '📖 Legal Basis',
+  alLegalText: 'Labor Standards Act §38: Employees who have worked continuously for a specific period shall be granted special leave.',
 };
 
 const th: Translations = {
@@ -287,6 +349,26 @@ const th: Translations = {
   analyzeContract: 'วิเคราะห์ข้อสัญญา',
   legalLetterGenerator: 'สร้างจดหมายกฎหมาย',
   legalLetterGeneratorSub: 'สร้างจดหมายกฎหมายอัตโนมัติจากการคำนวณ',
+  errSalaryRequired: 'กรุณากรอกเงินเดือน',
+  errSalaryPositive: 'เงินเดือนต้องเป็นจำนวนบวก',
+  errSalaryMax: 'เงินเดือนไม่เกิน 10,000,000',
+  errDateRequired: 'กรุณาเลือกวันที่',
+  errDateRange: 'ปีต้องอยู่ระหว่าง 1911 ถึง 2100',
+  errLeaveNonNegative: 'จำนวนวันต้องไม่ติดลบ',
+  errLeaveMax: 'จำนวนวันไม่เกิน 365 วัน',
+  annualLeaveCalc: 'คำนวณวันลาพักร้อน',
+  annualLeaveCalcSub: 'คำนวณวันลาพักร้อนตามอายุงาน',
+  alTitle: 'คำนวณวันลาพักร้อน',
+  alSubtitle: 'คำนวณจำนวนวันลาพักร้อนที่คุณมีสิทธิ์ตามวันเริ่มงาน ตามกฎหมายแรงงาน มาตรา 38',
+  alStartDate: 'วันเริ่มงาน',
+  alRefDate: 'วันที่อ้างอิง (ค่าเริ่มต้น: วันนี้)',
+  alRefDateError: 'วันที่อ้างอิงต้องอยู่หลังวันเริ่มงาน',
+  alCalculate: 'คำนวณวันลา',
+  alResultTitle: 'สรุปวันลาพักร้อน',
+  alCurrentLeave: 'สิทธิ์ปัจจุบัน',
+  alBreakdownTitle: 'วันลาตามช่วงอายุงาน',
+  alLegalBasis: '📖 อ้างอิงกฎหมาย',
+  alLegalText: 'กฎหมายมาตรฐานแรงงาน มาตรา 38: พนักงานที่ทำงานต่อเนื่องในระยะเวลาที่กำหนดจะได้รับวันลาพักร้อนพิเศษ',
 };
 
 export const translations: Record<Lang, Translations> = { 'zh-TW': zh, en, th };
