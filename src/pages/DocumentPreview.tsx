@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Copy, Download, FileText } from 'lucide-react';
 import { useLang } from '../contexts/LanguageContext';
@@ -12,12 +13,14 @@ interface CalcResult {
   totalCompensation: number;
 }
 
+type DocType = 'attest' | 'mediation' | 'overtime-demand';
+
 export default function DocumentPreview() {
   const navigate = useNavigate();
   const { t } = useLang();
   const location = useLocation();
   let state = location.state as {
-    type: 'attest' | 'mediation';
+    type: DocType;
     salary: string;
     startDate: string;
     endDate: string;
@@ -34,6 +37,8 @@ export default function DocumentPreview() {
       // ignore JSON parse error
     }
   }
+
+  const [docType, setDocType] = useState<DocType>(state?.type || 'attest');
 
   if (!state) {
     return (
@@ -60,7 +65,7 @@ export default function DocumentPreview() {
     );
   }
 
-  const { type, salary, startDate, endDate, result } = state;
+  const { salary, startDate, endDate, result } = state;
 
   const today = new Date();
   const dateStr = `${today.getFullYear()} 年 ${today.getMonth() + 1} 月 ${today.getDate()} 日`;
@@ -117,8 +122,53 @@ ${breakdownLines}
 
 申請日期：${dateStr}`;
 
-  const content = type === 'attest' ? attestTemplate : mediationTemplate;
-  const title = type === 'attest' ? t.attestTitle : t.mediationTitle;
+  const hourlyWage = (Number(salary) / 30 / 8).toFixed(2);
+
+  const overtimeDemandTemplate = `【存證信函範本 - 請求給付加班費】
+
+敬啟者：
+
+緣本人自民國（下同）${rocStart}起受僱於 貴公司，擔任（請填寫職稱），月薪為新台幣 ${salary} 元，換算每小時工資約為新台幣 ${hourlyWage} 元（月薪 ÷ 30 ÷ 8）。
+
+查本人於任職期間，經常依 貴公司指示或業務需要延長工作時間（加班），惟 貴公司迄今未依勞動基準法第24條規定加給延長工時工資（加班費），茲就本人主張之加班事實及應付金額，詳述如下：
+
+一、加班期間：民國（請填寫起始日期）至（請填寫結束日期）
+二、加班時數及金額明細：
+  （請填寫具體日期、加班時數及依法應計之加班費金額）
+
+  ※ 依勞基法第24條第1項：
+    • 平日延長工時前 2 小時：按時薪加給 1/3 以上
+    • 平日延長工時第 3~4 小時：按時薪加給 2/3 以上
+  ※ 依勞基法第24條第2項（休息日加班）：
+    • 前 2 小時：按時薪加給 1/3 以上
+    • 第 3~8 小時：按時薪加給 2/3 以上
+    • 第 9~12 小時：按時薪加給 5/3 以上
+  ※ 依勞基法第39條（國定假日/例假日出勤）：
+    • 加倍發給工資
+
+三、合計應付加班費：新台幣（請填寫）元
+
+依勞動基準法第24條、第39條暨相關函釋，雇主使勞工於正常工時以外延長工作時間，應依法定倍率加給工資，且不得以補休取代加班費（除勞工自願選擇補休外）。
+
+為保障本人權益，特發此函，促請 貴公司於函到7日內，將上開積欠之加班費全數匯入本人薪資帳戶。若逾期未給付，本人將逕向勞動主管機關申訴檢舉，並聲請勞資爭議調解，以維權益，希勿自誤為禱。
+
+寄件人：（請簽名）
+日期：${dateStr}`;
+
+  const templates: Record<DocType, string> = {
+    'attest': attestTemplate,
+    'mediation': mediationTemplate,
+    'overtime-demand': overtimeDemandTemplate,
+  };
+
+  const titleMap: Record<DocType, string> = {
+    'attest': t.attestTitle,
+    'mediation': t.mediationTitle,
+    'overtime-demand': t.overtimeDemandOption,
+  };
+
+  const content = templates[docType];
+  const title = titleMap[docType];
 
   const handleCopy = () => {
     navigator.clipboard.writeText(content);
@@ -138,6 +188,19 @@ ${breakdownLines}
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+        {/* Template Type Selector */}
+        <div className="flex gap-2 flex-wrap">
+          {(['attest', 'mediation', 'overtime-demand'] as DocType[]).map((dt) => (
+            <button
+              key={dt}
+              onClick={() => setDocType(dt)}
+              className={`text-xs px-3 py-1.5 rounded-full border transition-all ${docType === dt ? 'bg-primary text-white border-primary' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'}`}
+            >
+              {titleMap[dt]}
+            </button>
+          ))}
+        </div>
+
         <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-3 rounded-lg text-sm">
           <strong>提示：</strong> {t.docHint}
         </div>

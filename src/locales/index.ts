@@ -99,6 +99,49 @@ export interface Translations {
   alBreakdownTitle: string;
   alLegalBasis: string;
   alLegalText: string;
+  // Overtime Calculator
+  overtimeCalc: string;
+  overtimeCalcSub: string;
+  otSalaryLabel: string;
+  otHourlyWage: string;
+  otHourlyFormula: string;
+  otWeekdaySection: string;
+  otWeekday1Short: string;
+  otWeekday2Short: string;
+  otWeekday1Label: string;
+  otWeekday2Label: string;
+  otWeekday1Law: string;
+  otWeekday2Law: string;
+  otRestDaySection: string;
+  otRestDay1Short: string;
+  otRestDay2Short: string;
+  otRestDay3Short: string;
+  otRestDay1Label: string;
+  otRestDay2Label: string;
+  otRestDay3Label: string;
+  otRestDay1Law: string;
+  otRestDay2Law: string;
+  otRestDay3Law: string;
+  otHolidaySection: string;
+  otHolidayShort: string;
+  otHolidayLabel: string;
+  otHolidayLaw: string;
+  otCalculateBtn: string;
+  otResultTitle: string;
+  otHours: string;
+  otNoHours: string;
+  otTotal: string;
+  otTip: string;
+  otLawInfoTitle: string;
+  otLawInfoBody1: string;
+  otLawItem1: string;
+  otLawItem2: string;
+  otLawItem3: string;
+  otLawItem4: string;
+  otLawItem5: string;
+  otLawNote: string;
+  // Document: overtime demand
+  overtimeDemandOption: string;
 }
 
 const zh: Translations = {
@@ -106,8 +149,8 @@ const zh: Translations = {
   privacyNote: '匿名查詢，紀錄不留存',
   welcome: '歡迎使用 Labor Guard',
   welcomeSub: '您的專屬勞權智能輔助工具，保護您的職場權益。',
-  aiConsult: 'AI 法律諮詢',
-  aiConsultSub: '解析勞基法，提供行動建議',
+  aiConsult: '勞基法智能解析',
+  aiConsultSub: '深度解析勞基法，提供行動建議',
   calculator: '權益試算機',
   calculatorSub: '資遣費試算與一鍵產出文件',
   privacyFooter: '所有查詢皆為匿名處理，保障您的個人隱私',
@@ -136,7 +179,7 @@ const zh: Translations = {
   docHint: '此為系統自動生成之範本草稿，請填入「（請填寫）」的實際資訊後再行使用。',
   copyText: '複製文字',
   exportPdf: '匯出 PDF',
-  aiTitle: 'AI 法律諮詢',
+  aiTitle: '勞基法智能解析',
   aiGreeting: '您好，我是您的專屬勞資調解員。請問您目前遇到了什麼職場爭議？（例如：公司未給付加班費、無預警解雇等）',
   inputPlaceholder: '請描述您的職場爭議狀況...',
   apiKeyMissing: '未設定 API Key (VITE_GEMINI_API_KEY)',
@@ -189,6 +232,47 @@ const zh: Translations = {
   alBreakdownTitle: '各年資區間特休天數',
   alLegalBasis: '📖 法規依據',
   alLegalText: '勞動基準法第 38 條：勞工在同一雇主或事業單位，繼續工作滿一定期間者，應依規定給予特別休假。',
+  overtimeCalc: '加班費精算工具',
+  overtimeCalcSub: '依勞基法倍率自動計算加班費',
+  otSalaryLabel: '本薪 / 月薪 (新台幣)',
+  otHourlyWage: '時薪',
+  otHourlyFormula: '月薪÷30÷8',
+  otWeekdaySection: '平日加班',
+  otWeekday1Short: '前 2 小時',
+  otWeekday2Short: '第 3~4 小時',
+  otWeekday1Label: '平日加班 (前2h)',
+  otWeekday2Label: '平日加班 (3~4h)',
+  otWeekday1Law: '勞基法§24-1：延長2小時，按時薪加給1/3以上',
+  otWeekday2Law: '勞基法§24-1：再延長2小時，按時薪加給2/3以上',
+  otRestDaySection: '休息日加班',
+  otRestDay1Short: '前 2 小時',
+  otRestDay2Short: '第 3~8 小時',
+  otRestDay3Short: '第 9~12 小時',
+  otRestDay1Label: '休息日 (前2h)',
+  otRestDay2Label: '休息日 (3~8h)',
+  otRestDay3Label: '休息日 (9~12h)',
+  otRestDay1Law: '勞基法§24-2：休息日前2小時，按時薪加給1/3以上',
+  otRestDay2Law: '勞基法§24-2：休息日第3~8小時，按時薪加給2/3以上',
+  otRestDay3Law: '勞基法§24-2：休息日第9~12小時，按時薪加給5/3以上',
+  otHolidaySection: '國定假日 / 例假日',
+  otHolidayShort: '加班時數',
+  otHolidayLabel: '國定假日加班',
+  otHolidayLaw: '勞基法§39：休假日工作加倍發給工資',
+  otCalculateBtn: '計算加班費',
+  otResultTitle: '加班費明細',
+  otHours: '小時',
+  otNoHours: '尚未輸入加班時數',
+  otTotal: '加班費合計',
+  otTip: '💡 提醒：可至「存證信函產生器」使用「加班費催討」範本，向雇主正式催討欠付之加班費。',
+  otLawInfoTitle: '📖 勞基法加班費倍率速查',
+  otLawInfoBody1: '依勞動基準法第 24 條及第 39 條：',
+  otLawItem1: '平日加班前 2 小時：時薪 × 1⅓ (加給 1/3)',
+  otLawItem2: '平日加班第 3~4 小時：時薪 × 1⅔ (加給 2/3)',
+  otLawItem3: '休息日前 2 小時：時薪 × 1⅓',
+  otLawItem4: '休息日第 3~8 小時：時薪 × 1⅔；第 9~12 小時：時薪 × 2⅔',
+  otLawItem5: '國定假日 / 例假日出勤：加倍發給 (時薪 × 2)',
+  otLawNote: '※ 時薪 = 月薪 ÷ 30 ÷ 8',
+  overtimeDemandOption: '加班費催討',
 };
 
 const en: Translations = {
@@ -196,8 +280,8 @@ const en: Translations = {
   privacyNote: 'Anonymous queries, no records kept',
   welcome: 'Welcome to Labor Guard',
   welcomeSub: 'Your smart labor rights assistant, protecting your workplace rights.',
-  aiConsult: 'AI Legal Consultation',
-  aiConsultSub: 'Analyze Labor Standards Act & get suggestions',
+  aiConsult: 'LSA Smart Analysis',
+  aiConsultSub: 'Deep analysis of Labor Standards Act & suggestions',
   calculator: 'Benefits Calculator',
   calculatorSub: 'Severance pay calculation & document generation',
   privacyFooter: 'All queries are anonymous to protect your privacy',
@@ -226,7 +310,7 @@ const en: Translations = {
   docHint: 'This is an auto-generated template. Please fill in the blanks before using.',
   copyText: 'Copy Text',
   exportPdf: 'Export PDF',
-  aiTitle: 'AI Legal Consultation',
+  aiTitle: 'LSA Smart Analysis',
   aiGreeting: 'Hello, I am your labor dispute mediator. What workplace issue are you facing? (e.g. unpaid overtime, wrongful dismissal)',
   inputPlaceholder: 'Describe your workplace dispute...',
   apiKeyMissing: 'API Key not set (VITE_GEMINI_API_KEY)',
@@ -279,6 +363,47 @@ const en: Translations = {
   alBreakdownTitle: 'Leave by Seniority Bracket',
   alLegalBasis: '📖 Legal Basis',
   alLegalText: 'Labor Standards Act §38: Employees who have worked continuously for a specific period shall be granted special leave.',
+  overtimeCalc: 'Overtime Pay Calculator',
+  overtimeCalcSub: 'Auto-calculate overtime pay by LSA rates',
+  otSalaryLabel: 'Base Salary (NTD)',
+  otHourlyWage: 'Hourly Wage',
+  otHourlyFormula: 'Salary÷30÷8',
+  otWeekdaySection: 'Weekday Overtime',
+  otWeekday1Short: 'First 2 hours',
+  otWeekday2Short: 'Hours 3~4',
+  otWeekday1Label: 'Weekday OT (first 2h)',
+  otWeekday2Label: 'Weekday OT (3~4h)',
+  otWeekday1Law: 'LSA §24-1: First 2 hours OT, pay +1/3 hourly rate',
+  otWeekday2Law: 'LSA §24-1: Next 2 hours OT, pay +2/3 hourly rate',
+  otRestDaySection: 'Rest Day Overtime',
+  otRestDay1Short: 'First 2 hours',
+  otRestDay2Short: 'Hours 3~8',
+  otRestDay3Short: 'Hours 9~12',
+  otRestDay1Label: 'Rest Day (first 2h)',
+  otRestDay2Label: 'Rest Day (3~8h)',
+  otRestDay3Label: 'Rest Day (9~12h)',
+  otRestDay1Law: 'LSA §24-2: Rest day first 2h, pay +1/3 hourly rate',
+  otRestDay2Law: 'LSA §24-2: Rest day hours 3~8, pay +2/3 hourly rate',
+  otRestDay3Law: 'LSA §24-2: Rest day hours 9~12, pay +5/3 hourly rate',
+  otHolidaySection: 'National / Regular Holidays',
+  otHolidayShort: 'OT Hours',
+  otHolidayLabel: 'Holiday Overtime',
+  otHolidayLaw: 'LSA §39: Double pay for work on holidays',
+  otCalculateBtn: 'Calculate Overtime Pay',
+  otResultTitle: 'Overtime Pay Breakdown',
+  otHours: 'hours',
+  otNoHours: 'No overtime hours entered',
+  otTotal: 'Total Overtime Pay',
+  otTip: '💡 Tip: Use the "Overtime Pay Demand" template in the Legal Letter Generator to formally demand unpaid overtime.',
+  otLawInfoTitle: '📖 LSA Overtime Rate Quick Reference',
+  otLawInfoBody1: 'Per Labor Standards Act §24 and §39:',
+  otLawItem1: 'Weekday OT first 2 hours: Hourly × 1⅓ (+1/3)',
+  otLawItem2: 'Weekday OT hours 3~4: Hourly × 1⅔ (+2/3)',
+  otLawItem3: 'Rest day first 2 hours: Hourly × 1⅓',
+  otLawItem4: 'Rest day hours 3~8: Hourly × 1⅔; hours 9~12: Hourly × 2⅔',
+  otLawItem5: 'National/regular holidays: Double pay (Hourly × 2)',
+  otLawNote: '※ Hourly = Monthly Salary ÷ 30 ÷ 8',
+  overtimeDemandOption: 'Overtime Pay Demand',
 };
 
 const th: Translations = {
@@ -286,7 +411,7 @@ const th: Translations = {
   privacyNote: 'สอบถามแบบไม่ระบุตัวตน ไม่เก็บบันทึก',
   welcome: 'ยินดีต้อนรับสู่ Labor Guard',
   welcomeSub: 'ผู้ช่วยอัจฉริยะด้านสิทธิแรงงาน ปกป้องสิทธิในที่ทำงานของคุณ',
-  aiConsult: 'ปรึกษากฎหมายด้วย AI',
+  aiConsult: 'วิเคราะห์กฎหมายแรงงานด้วย AI',
   aiConsultSub: 'วิเคราะห์กฎหมายแรงงาน ให้คำแนะนำ',
   calculator: 'เครื่องคำนวณสิทธิ',
   calculatorSub: 'คำนวณค่าชดเชยและสร้างเอกสาร',
@@ -316,7 +441,7 @@ const th: Translations = {
   docHint: 'นี่เป็นแม่แบบที่สร้างอัตโนมัติ กรุณากรอกข้อมูลจริงก่อนใช้งาน',
   copyText: 'คัดลอก',
   exportPdf: 'ส่งออก PDF',
-  aiTitle: 'ปรึกษากฎหมายด้วย AI',
+  aiTitle: 'วิเคราะห์กฎหมายแรงงานด้วย AI',
   aiGreeting: 'สวัสดีครับ ผมเป็นผู้ไกล่เกลี่ยข้อพิพาทแรงงานของคุณ คุณกำลังประสบปัญหาอะไรในที่ทำงาน? (เช่น ค่าล่วงเวลาที่ไม่ได้รับ การเลิกจ้างไม่เป็นธรรม)',
   inputPlaceholder: 'อธิบายปัญหาแรงงานของคุณ...',
   apiKeyMissing: 'ไม่ได้ตั้งค่า API Key (VITE_GEMINI_API_KEY)',
@@ -369,6 +494,47 @@ const th: Translations = {
   alBreakdownTitle: 'วันลาตามช่วงอายุงาน',
   alLegalBasis: '📖 อ้างอิงกฎหมาย',
   alLegalText: 'กฎหมายมาตรฐานแรงงาน มาตรา 38: พนักงานที่ทำงานต่อเนื่องในระยะเวลาที่กำหนดจะได้รับวันลาพักร้อนพิเศษ',
+  overtimeCalc: 'คำนวณค่าล่วงเวลา',
+  overtimeCalcSub: 'คำนวณค่า OT ตามอัตรากฎหมาย',
+  otSalaryLabel: 'เงินเดือนพื้นฐาน (NTD)',
+  otHourlyWage: 'ค่าจ้างรายชั่วโมง',
+  otHourlyFormula: 'เงินเดือน÷30÷8',
+  otWeekdaySection: 'ล่วงเวลาวันธรรมดา',
+  otWeekday1Short: '2 ชั่วโมงแรก',
+  otWeekday2Short: 'ชั่วโมงที่ 3~4',
+  otWeekday1Label: 'OT วันธรรมดา (2hแรก)',
+  otWeekday2Label: 'OT วันธรรมดา (3~4h)',
+  otWeekday1Law: 'มาตรา 24-1: OT 2 ชั่วโมงแรก +1/3',
+  otWeekday2Law: 'มาตรา 24-1: OT ถัดไป 2 ชั่วโมง +2/3',
+  otRestDaySection: 'ล่วงเวลาวันหยุด',
+  otRestDay1Short: '2 ชั่วโมงแรก',
+  otRestDay2Short: 'ชั่วโมงที่ 3~8',
+  otRestDay3Short: 'ชั่วโมงที่ 9~12',
+  otRestDay1Label: 'วันหยุด (2hแรก)',
+  otRestDay2Label: 'วันหยุด (3~8h)',
+  otRestDay3Label: 'วันหยุด (9~12h)',
+  otRestDay1Law: 'มาตรา 24-2: วันหยุด 2hแรก +1/3',
+  otRestDay2Law: 'มาตรา 24-2: วันหยุด 3~8h +2/3',
+  otRestDay3Law: 'มาตรา 24-2: วันหยุด 9~12h +5/3',
+  otHolidaySection: 'วันหยุดนักขัตฤกษ์',
+  otHolidayShort: 'ชั่วโมง OT',
+  otHolidayLabel: 'OT วันหยุด',
+  otHolidayLaw: 'มาตรา 39: ทำงานวันหยุดจ่ายสองเท่า',
+  otCalculateBtn: 'คำนวณค่า OT',
+  otResultTitle: 'รายละเอียดค่าล่วงเวลา',
+  otHours: 'ชั่วโมง',
+  otNoHours: 'ยังไม่ได้กรอกชั่วโมง OT',
+  otTotal: 'รวมค่าล่วงเวลา',
+  otTip: '💡 เคล็ดลับ: ใช้แม่แบบ "ทวงถามค่า OT" ในเครื่องมือสร้างจดหมาย',
+  otLawInfoTitle: '📖 อัตราค่าล่วงเวลาตามกฎหมาย',
+  otLawInfoBody1: 'ตามกฎหมายแรงงาน มาตรา 24 และ 39:',
+  otLawItem1: 'OT วันธรรมดา 2hแรก: รายชั่วโมง × 1⅓',
+  otLawItem2: 'OT วันธรรมดา 3~4h: รายชั่วโมง × 1⅔',
+  otLawItem3: 'วันหยุด 2hแรก: รายชั่วโมง × 1⅓',
+  otLawItem4: 'วันหยุด 3~8h: × 1⅔; 9~12h: × 2⅔',
+  otLawItem5: 'วันหยุดนักขัตฤกษ์: จ่ายสองเท่า (× 2)',
+  otLawNote: '※ รายชั่วโมง = เงินเดือน ÷ 30 ÷ 8',
+  overtimeDemandOption: 'ทวงถามค่าล่วงเวลา',
 };
 
 export const translations: Record<Lang, Translations> = { 'zh-TW': zh, en, th };

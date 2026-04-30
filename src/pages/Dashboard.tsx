@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Scale, Calculator as CalcIcon, ShieldCheck, ChevronRight, ClipboardCheck, FileSearch, FileSignature, CalendarDays } from 'lucide-react';
+import { Scale, Calculator as CalcIcon, ShieldCheck, ChevronRight, ClipboardCheck, FileSearch, FileSignature, CalendarDays, Clock } from 'lucide-react';
 import { useLang } from '../contexts/LanguageContext';
 
 export default function Dashboard() {
@@ -59,6 +59,22 @@ export default function Dashboard() {
             <div>
               <h3 className="font-semibold text-gray-800 text-lg">{t.annualLeaveCalc}</h3>
               <p className="text-gray-500 text-xs mt-1">{t.annualLeaveCalcSub}</p>
+            </div>
+          </div>
+          <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />
+        </Link>
+
+        <Link
+          to="/overtime-calc"
+          className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/30 transition-all flex items-center justify-between"
+        >
+          <div className="flex items-center gap-4">
+            <div className="bg-blue-50 p-3 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors text-primary">
+              <Clock className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800 text-lg">{t.overtimeCalc}</h3>
+              <p className="text-gray-500 text-xs mt-1">{t.overtimeCalcSub}</p>
             </div>
           </div>
           <ChevronRight className="text-gray-300 group-hover:text-primary transition-colors" />

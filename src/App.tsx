@@ -8,6 +8,7 @@ import DocumentPreview from './pages/DocumentPreview';
 import RiskAssessment from './pages/RiskAssessment';
 import ContractAnalysis from './pages/ContractAnalysis';
 import AnnualLeaveCalc from './pages/AnnualLeaveCalc';
+import OvertimeCalc from './pages/OvertimeCalc';
 import { LanguageProvider, useLang } from './contexts/LanguageContext';
 import { type Lang, langLabels } from './locales';
 
@@ -66,6 +67,7 @@ function App() {
               <Route path="/risk-assessment" element={<RiskAssessment />} />
               <Route path="/contract-analysis" element={<ContractAnalysis />} />
               <Route path="/annual-leave" element={<AnnualLeaveCalc />} />
+              <Route path="/overtime-calc" element={<OvertimeCalc />} />
             </Routes>
           </main>
         </div>
