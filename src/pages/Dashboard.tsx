@@ -1,6 +1,25 @@
 import { Link } from 'react-router-dom';
 import { Scale, Calculator as CalcIcon, ShieldCheck, ChevronRight, ClipboardCheck, FileSearch, FileSignature, CalendarDays, Clock } from 'lucide-react';
 import { useLang } from '../contexts/LanguageContext';
+import ImageCarousel, { type AdItem } from '../components/ImageCarousel';
+import '../components/ImageCarousel.css';
+
+/**
+ * 跑馬燈廣告資料 — 請自行替換 imageUrl、linkUrl 與 altText
+ * 圖片建議尺寸：16:9 比例 (例如 800x450、1200x675)
+ */
+const ads: AdItem[] = [
+  {
+    imageUrl: '/ads/slam-banner.png',
+    linkUrl: 'https://www.slam888.com.tw/',
+    altText: '大滿貫娛樂城 — 全台機種最齊全的線上遊藝平台',
+  },
+  {
+    imageUrl: '/ads/tmd-banner.png',
+    linkUrl: 'https://www.gametower.com.tw/Games/tmd/index.aspx',
+    altText: '滿貫大亨 — 線上娛樂城、魚機、老虎機首選',
+  },
+];
 
 export default function Dashboard() {
   const { t } = useLang();
@@ -14,6 +33,9 @@ export default function Dashboard() {
         <h2 className="text-2xl font-bold text-gray-800">{t.welcome}</h2>
         <p className="text-gray-500 mt-2 text-sm">{t.welcomeSub}</p>
       </div>
+
+      {/* 跑馬燈廣告 Image Carousel */}
+      <ImageCarousel ads={ads} interval={4000} />
 
       <div className="flex flex-col gap-4">
         <Link
